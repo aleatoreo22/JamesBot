@@ -7,7 +7,7 @@ namespace JamesBot.Commands;
 public class Base : BaseCommandModule
 {
     [Command("start")]
-    public static async Task Start(CommandContext commandContext)
+    public async Task Start(CommandContext commandContext)
     {
         var users = (await commandContext.Guild.GetAllMembersAsync()).ToList();
         users.RemoveAll(x => x.DisplayName == "JamesBot");
@@ -27,7 +27,7 @@ public class Base : BaseCommandModule
     }
 
     [Command("teste")]
-    public static async Task Teste(CommandContext commandContext)
+    public async Task Teste(CommandContext commandContext)
     {
         DateTime? date = null;
         var a = (await commandContext.Guild.GetChannelsAsync()).ToList();
