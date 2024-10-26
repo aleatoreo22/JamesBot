@@ -3,6 +3,7 @@ using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.Logging;
 using NLua;
+using Emzi0767.Utilities;
 
 namespace JamesBot;
 
@@ -64,9 +65,10 @@ public class Bot
                 return;
             }
             var paramters = e.Message.Content[(comandText.Length + 2)..].Split(' ');
+            paramters.ToList().RemoveAll(x => x == "");
             using var lua = new Lua();
             lua.DoFile(luaFile);
-            var response = lua.GetFunction("command").Call(paramters.ToList().RemoveAll(x => x == ""));
+            var response = lua.GetFunction("command").Call(paramters.ToArray());
             await e.Message.RespondAsync(response[0].ToString());
         }
     }
