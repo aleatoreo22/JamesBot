@@ -64,10 +64,10 @@ public class Bot
                 await e.Message.RespondAsync("Comando nao reconhecido! `'-'`");
                 return;
             }
-            var paramters = Array.Empty<string>();
+            var paramters = new List<string>();
             if (e.Message.Content.Length > comandText.Length + 2)
-                paramters = e.Message.Content[(comandText.Length + 2)..].Split(' ');
-            paramters.ToList().RemoveAll(x => x == "");
+                paramters = e.Message.Content[(comandText.Length + 2)..].Split(' ').ToList();
+            paramters.RemoveAll(x => x == "");
             using var lua = new Lua();
             lua.DoFile(luaFile);
             var response = lua.GetFunction("command").Call(paramters.ToArray());
