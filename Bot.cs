@@ -66,7 +66,7 @@ public class Bot
             var paramters = e.Message.Content[(comandText.Length + 2)..].Split(' ');
             using var lua = new Lua();
             lua.DoFile(luaFile);
-            var response = lua.GetFunction("command").Call(paramters);
+            var response = lua.GetFunction("command").Call(paramters.ToList().RemoveAll(x => x == ""));
             await e.Message.RespondAsync(response[0].ToString());
         }
     }
