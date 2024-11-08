@@ -2,8 +2,7 @@ using DSharpPlus;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.Logging;
-using NLua;
-using Emzi0767.Utilities;
+using System.Diagnostics;
 
 namespace JamesBot;
 
@@ -68,10 +67,39 @@ public class Bot
             if (e.Message.Content.Length > comandText.Length + 2)
                 paramters = e.Message.Content[(comandText.Length + 2)..].Split(' ').ToList();
             paramters.RemoveAll(x => x == "");
-            using var lua = new Lua();
-            lua.DoFile(luaFile);
-            var response = lua.GetFunction("command").Call(paramters.ToArray());
-            await e.Message.RespondAsync(response[0].ToString());
+            var response = RunLuaScript(luaFile, paramters);
+            await e.Message.RespondAsync(response);
+        }
+    }
+
+    private string RunLuaScript(string luaFile, List<string> paramters)
+    {
+        try
+        {
+            string luaPath = "/usr/bin/lua"; 
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = luaPath,
+                    Arguments = luaFile + " " + string.Join(' ', paramters),
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            process.WaitForExit();
+            if (!string.IsNullOrEmpty(error))
+               throw new Exception(error); 
+            return output;
+        }
+        catch (Exception)
+        {
+            throw;
         }
     }
 

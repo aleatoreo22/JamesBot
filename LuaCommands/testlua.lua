@@ -1,3 +1,1 @@
-function command()
-    return "Meu nome e LUA!!"
-end
+print("Meu nome e LUA!!")

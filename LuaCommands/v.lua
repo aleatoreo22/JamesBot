@@ -1,3 +1,1 @@
-function command()
-    return _VERSION
-end
+print(_VERSION)

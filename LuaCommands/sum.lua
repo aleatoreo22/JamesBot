@@ -1,3 +1,3 @@
-function command(a,b)
-    return a + b
-end
+local a = tonumber(arg[1])
+local b = tonumber(arg[2])
+print(a + b)
