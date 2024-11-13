@@ -76,7 +76,7 @@ public class Bot
     {
         try
         {
-            string luaPath = "/usr/bin/lua"; 
+            string luaPath = "/usr/bin/lua";
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -94,7 +94,7 @@ public class Bot
             string error = process.StandardError.ReadToEnd();
             process.WaitForExit();
             if (!string.IsNullOrEmpty(error))
-               throw new Exception(error); 
+                throw new Exception(error);
             return output;
         }
         catch (Exception)

@@ -10,9 +10,12 @@ public class ZorkClient
 
     private static void NormalizeText(ref Model.Zork zork)
     {
-        zork.cmdOutput = Regex.Replace(zork.cmdOutput, @"\x1b\[[0-9;]*[A-Za-z]", "");
-        zork.lookOutput.firstLine = Regex.Replace(zork.lookOutput.firstLine, @"\x1b\[[0-9;]*[A-Za-z]", "");
-        zork.firstLine = Regex.Replace(zork.firstLine, @"\x1b\[[0-9;]*[A-Za-z]", "");
+        if (zork.cmdOutput != null)
+            zork.cmdOutput = Regex.Replace(zork.cmdOutput, @"\x1b\[[0-9;]*[A-Za-z]", "");
+        if (zork.lookOutput?.firstLine != null)
+            zork.lookOutput.firstLine = Regex.Replace(zork.lookOutput.firstLine, @"\x1b\[[0-9;]*[A-Za-z]", "");
+        if (zork.firstLine != null)
+            zork.firstLine = Regex.Replace(zork.firstLine, @"\x1b\[[0-9;]*[A-Za-z]", "");
     }
 
     public static async Task<Model.Zork?> Action(string email, string game_title, string action)
